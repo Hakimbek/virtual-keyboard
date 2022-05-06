@@ -406,3 +406,26 @@ Object.values(document.getElementsByClassName('button')).forEach((button) => {
         });
     });
 });
+
+/* Change keyboard language with Alt+Ctrl or Ctrl+Alt combination */
+window.addEventListener('keydown', (event) => {
+    // if Ctrl+Alt or Alt+Ctrl clicked
+    if ((event.ctrlKey && event.key === 'Alt') || (event.altKey && event.key === 'Control')) {
+        Object.values(document.getElementsByClassName('button')).forEach((value) => {
+            const button = value;
+            // change language
+            if (localStorage.getItem('lang') === 'en') {
+                button.textContent = button.getAttribute('enValue');
+            } else {
+                button.textContent = button.getAttribute('ruValue');
+            }
+        });
+
+        // change lang property in localstorage
+        if (localStorage.getItem('lang') === 'en') {
+            localStorage.setItem('lang', 'ru');
+        } else {
+            localStorage.setItem('lang', 'en');
+        }
+    }
+});
