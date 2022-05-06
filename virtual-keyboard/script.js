@@ -82,3 +82,135 @@ const leftAlt = new Button('AltLeft', 'Alt', 'Alt', 'Alt', 'Alt', '#222222', 40)
 const rightAlt = new Button('AltRight', 'Alt', 'Alt', 'Alt', 'Alt', '#222222', 40);
 const backspace = new Button('Backspace', 'Backspace', 'Backspace', 'Backspace', 'Backspace', '#222222', 100);
 /*  */
+
+/* Button maker function */
+/* Return ready button with all necessary tags and styles */
+function makeButton(button) {
+    return `<div class='button'
+               enValue = '${button.enValue}'
+               ruValue = '${button.ruValue}' 
+               enShift = '${button.enShift}' 
+               ruShift = '${button.ruShift}' 
+               color='${button.color}' 
+               key='${button.key}' 
+               style="background-color: ${button.color}; 
+               width: ${button.width}px;
+               height: ${button.height}px;
+               color: white;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               margin: 3px;
+               border-radius: 5px;
+               font-size: 15px;
+               font-family: sans-serif;
+               transition: 0.25s ease-in-out;"></div>`;
+}
+/*  */
+
+/* HTML */
+const body = document.getElementById('body'); // body
+body.style.cssText = `width: 720px;
+                      margin: 20px auto;`;
+
+body.innerHTML = `${`<h1 id="title" style="text-align: center;
+                                           font-family: sans-serif;
+                                           color: #097179;">` // title
+    + 'hakim\'s keyboard'
+    + '</h1>'
+
+    + `<textarea id="textarea" style="width: 100%;
+                                                height: 230px;
+                                                font-size: 25px;
+                                                padding: 15px;
+                                                box-sizing: border-box;"></textarea>` // textare
+    + `<div id="keyboard" style="width: 100%;
+                                 height: auto;
+                                 border: 4px solid #222222;
+                                 border-radius: 5px;
+                                 background-color: #888888;
+                                 box-sizing: border-box;
+                                 margin-top: 20px;
+                                 padding: 3px;">` // keyboard
+    + '<div style="display: flex;">'}
+        ${makeButton(backtick)}
+        ${makeButton(one)}
+        ${makeButton(two)}
+        ${makeButton(three)}
+        ${makeButton(four)}
+        ${makeButton(five)}
+        ${makeButton(six)}
+        ${makeButton(seven)}
+        ${makeButton(eight)}
+        ${makeButton(nine)}
+        ${makeButton(zero)}
+        ${makeButton(minus)}
+        ${makeButton(equal)}
+        ${makeButton(backspace)}
+       </div>`
+    + `<div style="display: flex;">
+        ${makeButton(tab)}
+        ${makeButton(q)}
+        ${makeButton(w)}
+        ${makeButton(e)}
+        ${makeButton(r)}
+        ${makeButton(t)}
+        ${makeButton(y)}
+        ${makeButton(u)}
+        ${makeButton(i)}
+        ${makeButton(o)}
+        ${makeButton(p)}
+        ${makeButton(leftSquareBracket)}
+        ${makeButton(rightSquareBracket)}
+        ${makeButton(backSlash)}
+        ${makeButton(del)}
+       </div>`
+    + `<div style="display: flex;">
+        ${makeButton(capsLock)}
+        ${makeButton(a)}
+        ${makeButton(s)}
+        ${makeButton(d)}
+        ${makeButton(f)}
+        ${makeButton(g)}
+        ${makeButton(h)}
+        ${makeButton(j)}
+        ${makeButton(k)}
+        ${makeButton(l)}
+        ${makeButton(semicolon)}
+        ${makeButton(quote)}
+        ${makeButton(enter)}
+       </div>`
+    + `<div style="display: flex;">
+        ${makeButton(leftShift)}
+        ${makeButton(z)}
+        ${makeButton(x)}
+        ${makeButton(c)}
+        ${makeButton(v)}
+        ${makeButton(b)}
+        ${makeButton(n)}
+        ${makeButton(m)}
+        ${makeButton(comma)}
+        ${makeButton(dot)}
+        ${makeButton(slash)}
+        ${makeButton(up)}
+        ${makeButton(rightShift)}
+       </div>`
+    + `<div style="display: flex;">
+        ${makeButton(leftCtrl)}
+        ${makeButton(win)}
+        ${makeButton(leftAlt)}
+        ${makeButton(space)}
+        ${makeButton(rightAlt)}
+        ${makeButton(left)}
+        ${makeButton(down)}
+        ${makeButton(right)}
+        ${makeButton(rightCtrl)}
+       </div>`
+    + '</div>'
+    + `<div>
+        <p style="text-align: center;
+                  font-size: 20px;
+                  margin-top: 40px">Клавиатура создана в системе Windows</p>
+        <p style="text-align: center;
+                  font-size: 20px;">Для переключения языка комбинация: ctrl + alt</p>
+       </div>`;
