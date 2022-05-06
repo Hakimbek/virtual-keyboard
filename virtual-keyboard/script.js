@@ -429,3 +429,197 @@ window.addEventListener('keydown', (event) => {
         }
     }
 });
+
+/* Works after keydown */
+window.addEventListener('keydown', (event) => {
+    event.preventDefault(); // clear all default functions of buttons
+
+    // change button background color
+    Object.values(document.getElementsByClassName('button')).forEach((value) => {
+        const button = value;
+        if (button.getAttribute('key') === event.code) {
+            button.style.cssText += `background-color: #16c95d;
+                               border-radius: 50px;`;
+        }
+    });
+
+    // get textarea
+    const textarea = document.getElementById('textarea');
+
+    // console.log(textarea.value.length)
+    bool = textarea.selectionStart < index;
+
+    if (bool) {
+        if (textarea.selectionStart < index) {
+            index = textarea.selectionStart;
+            bool = false;
+        }
+    } else if (textarea.selectionStart > index && textarea.selectionStart < textarea.value.length) {
+        index = textarea.selectionStart;
+        bool = true;
+    }
+
+    const start = textarea.value.slice(0, index);
+    const end = textarea.value.slice(index);
+
+    // write some value into textarea
+    // when backspace is clicked
+    if (event.key === 'Backspace') {
+        if (index) {
+            textarea.value = textarea.value.slice(0, index - 1) + textarea.value.slice(index);
+            index -= 1;
+        }
+    } else if (event.key === 'Tab') { // when tab is clicked
+        textarea.value = `${start}    ${end}`;
+        index += 4;
+    } else if (event.key === 'Alt' || event.key === 'Control' || event.key === 'Meta') {
+
+        // do not write anything when Alt, Ctrl, Meta is clicked
+
+    } else if (event.key === 'Delete') {
+        textarea.value = textarea.value.slice(0, index) + textarea.value.slice(index + 1);
+    } else if (event.key === 'Enter') { // when enter is clicked
+        textarea.value = `${start}\n${end}`;
+        index += 1;
+    } else if (event.code === 'CapsLock') { // when capslock is clicked
+        Object.values(document.getElementsByClassName('button')).forEach((value) => {
+            const button = value;
+
+            if (button.textContent.match(/[a-zA-Zа-яА-Я]/) && button.textContent.length === 1) {
+                if (button.textContent === button.textContent.toLowerCase()) {
+                    // make buttons UpperCase
+                    button.textContent = button.textContent.toUpperCase();
+                    localStorage.capslock = 'up';
+                } else {
+                    // make buttons LowerCase
+                    button.textContent = button.textContent.toLowerCase();
+                    localStorage.capslock = 'low';
+                }
+            }
+
+            if (button.getAttribute('key') === 'Backquote') {
+                if (button.textContent === button.textContent.toLowerCase()) {
+                    button.textContent = button.textContent.toUpperCase();
+                } else {
+                    button.textContent = button.textContent.toLowerCase();
+                }
+            }
+        });
+    } else if (event.key === 'Shift') { // when shift is clicked
+        localStorage.shift = 'on';
+
+        Object.values(document.getElementsByClassName('button')).forEach((value) => {
+            const button = value;
+
+            if (localStorage.getItem('lang') === 'en') {
+                button.textContent = button.getAttribute('enShift');
+            } else {
+                button.textContent = button.getAttribute('ruShift');
+            }
+        });
+    } else { // other buttons is clicked
+        Object.values(document.getElementsByClassName('button')).forEach((value) => {
+            const button = value;
+            if (button.getAttribute('key') === event.code) {
+                if (localStorage.shift === 'on') {
+                    if (localStorage.getItem('lang') === 'en') {
+                        textarea.value = start + button.getAttribute('enShift') + end;
+                    } else {
+                        textarea.value = start + button.getAttribute('ruShift') + end;
+                    }
+                } else if (localStorage.capslock === 'up') {
+                    if (localStorage.getItem('lang') === 'en') {
+                        textarea.value = start + button.getAttribute('enValue').toUpperCase() + end;
+                    } else {
+                        textarea.value = start + button.getAttribute('ruValue').toUpperCase() + end;
+                    }
+                } else if (localStorage.getItem('lang') === 'en') {
+                    textarea.value = start + button.getAttribute('enValue') + end;
+                } else {
+                    textarea.value = start + button.getAttribute('ruValue') + end;
+                }
+            }
+        });
+        index += 1;
+    }
+});
+/*  */
+
+/* Works when keyup */
+window.addEventListener('keyup', (event) => {
+    if (event.key === 'Shift') {
+        localStorage.shift = 'off';
+    }
+
+    Object.values(document.getElementsByClassName('button')).forEach((value) => {
+        const button = value;
+
+        if (localStorage.shift === 'on') {
+            if (localStorage.getItem('lang') === 'en') {
+                button.textContent = button.getAttribute('enShift');
+            } else {
+                button.textContent = button.getAttribute('ruShift');
+            }
+        } else if (localStorage.capslock === 'up') {
+            if (localStorage.getItem('lang') === 'en') {
+                if (button.textContent.match(/[a-zA-Z]/) && button.textContent.length === 1) {
+                    button.textContent = button.getAttribute('enValue').toUpperCase();
+                } else {
+                    button.textContent = button.getAttribute('enValue');
+                }
+            } else {
+                if (button.textContent.match(/[а-яА-Я]/) && button.textContent.length === 1) {
+                    button.textContent = button.getAttribute('ruValue').toUpperCase();
+                } else {
+                    button.textContent = button.getAttribute('ruValue');
+                }
+
+                if (button.getAttribute('key') === 'Backquote') {
+                    button.textContent = button.getAttribute('ruValue').toUpperCase();
+                }
+            }
+        } else if (localStorage.getItem('lang') === 'en') {
+            button.textContent = button.getAttribute('enValue');
+        } else {
+            button.textContent = button.getAttribute('ruValue');
+        }
+
+        if (button.getAttribute('key') === 'CapsLock') {
+            if (localStorage.capslock === 'low') {
+                button.style.cssText += `background-color: ${button.getAttribute('color')};
+                                         border-radius: 5px;`;
+            }
+        } else if (localStorage.shift === 'on') {
+            if (button.getAttribute('key') !== 'ShiftLeft' || button.getAttribute('key') !== 'ShiftLeft') {
+                button.style.cssText += `background-color: ${button.getAttribute('color')};
+                                         border-radius: 5px;`;
+            }
+        } else {
+            button.style.cssText += `background-color: ${button.getAttribute('color')};
+                                         border-radius: 5px;`;
+        }
+    });
+});
+/*  */
+
+/* Work after page load */
+window.addEventListener('load', () => {
+    // if page is loaded set local storage properties
+    if (!localStorage.initialLoad) {
+        localStorage.lang = 'en'; // set lang
+        localStorage.capslock = 'low'; // set capslock
+        localStorage.shift = 'off'; // set shift
+        localStorage.initialLoad = true; // do not run this code after first load
+    }
+
+    // render buttons value
+    Object.values(document.getElementsByClassName('button')).forEach((value) => {
+        const button = value;
+        if (localStorage.getItem('lang') === 'en') {
+            button.textContent = button.getAttribute('enValue');
+        } else {
+            button.textContent = button.getAttribute('ruValue');
+        }
+    });
+});
+/*  */
