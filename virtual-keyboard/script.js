@@ -430,6 +430,12 @@ window.addEventListener('keydown', (event) => {
     }
 });
 
+document.getElementById('textarea').addEventListener('click', event => {
+    if (document.getElementById('textarea').selectionStart === document.getElementById('textarea').value.length) {
+        index = document.getElementById('textarea').selectionStart;
+    }
+})
+
 /* Works after keydown */
 window.addEventListener('keydown', (event) => {
     event.preventDefault(); // clear all default functions of buttons
