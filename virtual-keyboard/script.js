@@ -348,8 +348,6 @@ Object.values(document.getElementsByClassName('button')).forEach((button) => {
 
   button.addEventListener('mouseup', (event) => {
     const btn = event;
-    // btn.target.style.cssText = style;
-    // btn.target.style.backgroundColor = '#5a7059';
     btn.target.style.cursor = 'pointer';
 
     if (btn.target.textContent === 'Shift') {
